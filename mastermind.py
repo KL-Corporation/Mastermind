@@ -4,9 +4,10 @@ import random
 import numpy
 
 pygame.init()
+pygame.display.set_icon(pygame.image.load("Assets/Branding/window_icon.png"))
+pygame.display.set_caption("Mastermind by KL Corporation")
 window_size = (600, 900)
 window = pygame.display.set_mode(window_size)
-pygame.display.set_caption("Mastermind by KL Corporation")
 
 mastermind_array = []
 gameboard = numpy.zeros((12, 4), dtype="int8")
@@ -32,30 +33,27 @@ def isfull(row: list) -> bool:
     return True
 
 class Colors:
-    class GetPrimary:
-        """Get a primary color.
-        """
-        Red = (255, 0, 0)
-        Yellow = (255, 255, 0)
-        Green = (0, 255, 0)
-        Cyan = (0, 255, 255)
-        Blue = (0, 0, 255)
-        Magenta = (255, 0, 255)
-        White = (255, 255, 255)
-        LightGray = (192, 192, 192)
-        Gray = (128, 128, 128)
-        DarkGray = (64, 64, 64)
-        Black = (0, 0, 0)
+    Red = (255, 0, 0)
+    Yellow = (255, 255, 0)
+    Green = (0, 255, 0)
+    Cyan = (0, 255, 255)
+    Blue = (0, 0, 255)
+    Magenta = (255, 0, 255)
+    White = (255, 255, 255)
+    LightGray = (192, 192, 192)
+    Gray = (128, 128, 128)
+    DarkGray = (64, 64, 64)
+    Black = (0, 0, 0)
 
 
 gamecolors = {
-    0: Colors.GetPrimary.White,
-    1: Colors.GetPrimary.Yellow,
-    2: Colors.GetPrimary.Green,
-    3: Colors.GetPrimary.Cyan,
-    4: Colors.GetPrimary.Blue,
-    5: Colors.GetPrimary.Magenta,
-    6: Colors.GetPrimary.Gray
+    0: Colors.White,
+    1: Colors.Yellow,
+    2: Colors.Green,
+    3: Colors.Cyan,
+    4: Colors.Blue,
+    5: Colors.Magenta,
+    6: Colors.Gray
 }
 
 color_amounts = dict()
@@ -95,8 +93,7 @@ def win():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-        pygame.display.update()
+                return True
 
 def lose():
     window.blit(pygame.font.SysFont("Arial", 40).render("Havisit pelin!", False, (255, 20, 65)), (5, 100))
@@ -104,8 +101,7 @@ def lose():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                pygame.quit()
-        pygame.display.update()
+                return True
 
 class Indicator:
     def __init__(self, c1, c2, p):
@@ -156,11 +152,11 @@ while main_running:
             highlight = False
             if rects[y][x].collidepoint(pygame.mouse.get_pos()):
                 highlight = True
-                col = Colors.GetPrimary.Red
+                col = Colors.Red
                 if (11 - y) == current_row and pygame.mouse.get_pressed()[0]:
                         gameboard[y][x] = placement_color_index
             else:
-                col = Colors.GetPrimary.Black
+                col = Colors.Black
             if highlight:
                 tsurf = pygame.Surface((60, 60))
                 pygame.draw.circle(tsurf, gamecolors[placement_color_index], (30, 30), 30)
@@ -172,10 +168,12 @@ while main_running:
         pygame.draw.rect(window, (0, 0, 0), (120, 815 - current_row * 70, 380, 70), 4)
     
     if checkIfCorrect(mastermind_array, gameboard[11-current_row]):
-        win()
+        _break = win()
+        if _break: main_running = False
 
     if current_row > 11:
-        lose()
+        _break = lose()
+        if _break: main_running = False
         
     yuewae = 0
     for unit in selection_rects:

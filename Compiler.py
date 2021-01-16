@@ -29,9 +29,10 @@ PyInstaller.__main__.run([
     CachePath,
     "--windowed",
     "--icon",
-    f"{parentDir}/{iconName}",
-    f"{parentDir}/{fileName}",
-    "--onefile"
+    f"{parentDir}/Assets/Branding/{iconName}",
+    "--add-data",
+    f"{parentDir}/Assets;Assets/",
+    f"{parentDir}/{fileName}"
 ])
 
 print(termcolor.colored(f"Built Mastermind at " + os.path.join(BuildPath, os.path.splitext(fileName)[0], os.path.splitext(fileName)[0] + ".exe"), "green"))
