@@ -95,7 +95,7 @@ def win():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                quit()
+                pygame.quit()
         pygame.display.update()
 
 def lose():
@@ -104,7 +104,7 @@ def lose():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                quit()
+                pygame.quit()
         pygame.display.update()
 
 class Indicator:

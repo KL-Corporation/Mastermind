@@ -30,7 +30,8 @@ PyInstaller.__main__.run([
     "--windowed",
     "--icon",
     f"{parentDir}/{iconName}",
-    f"{parentDir}/{fileName}"
+    f"{parentDir}/{fileName}",
+    "--onefile"
 ])
 
 print(termcolor.colored(f"Built Mastermind at " + os.path.join(BuildPath, os.path.splitext(fileName)[0], os.path.splitext(fileName)[0] + ".exe"), "green"))
